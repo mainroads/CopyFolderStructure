@@ -28,7 +28,7 @@ if ($folderLevel -ge 0) {
     $sourceDirs = Get-ChildItem -Path $sourceDir -Recurse -Directory -Depth $folderLevel |
         Where-Object { ($_.FullName -ne $sourceDir) -and ($_.FullName.Split('\').Count -le $sourceDir.Split('\').Count + $folderLevel) }
 } else {
-    $sourceDirs = Get-ChildItem -Path $sourceDir -Recurse -Directory
+    $sourceDirs = Get-ChildItem -Path $sourceDir -Recurse -Directory -ErrorAction SilentlyContinue
 }
 
 foreach ($dir in $sourceDirs) {
