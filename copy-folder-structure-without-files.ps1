@@ -21,8 +21,9 @@ if (!(Test-Path -Path $destDir -PathType Container)) {
     New-Item -ItemType Directory -Path $destDir | Out-Null
 }
 
-# Get all subdirectories under the source directory
-$sourceDirs = Get-ChildItem -Path $sourceDir -Recurse -Directory
+# Get all subdirectories under the source directory up to two levels deep
+$sourceDirs = Get-ChildItem -Path $sourceDir -Recurse -Directory -Depth 2 |
+    Where-Object { ($_.FullName -ne $sourceDir) -and ($_.FullName.Split('\').Count -le $sourceDir.Split('\').Count + 2) }
 
 foreach ($dir in $sourceDirs) {
     # Replace source directory path with destination in each subdirectory path
